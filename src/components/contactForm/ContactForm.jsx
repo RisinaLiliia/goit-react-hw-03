@@ -48,8 +48,8 @@ export default function ContactForm({ onAdd }) {
           <ErrorMessage className={css.error} name="number" component="span" />
         </div>
 
-        <button className={css.button} type="Add contact">
-          Submit
+        <button className={css.button} type="submit">
+          Add contact
         </button>
       </Form>
     </Formik>

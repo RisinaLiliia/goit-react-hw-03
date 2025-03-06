@@ -1,6 +1,7 @@
+import { useState } from "react";
 import ContactForm from "../../../src/components/contactForm/ContactForm.jsx";
 import ContactList from "../../../src/components/сontactList/ContactList.jsx";
-import { useState } from "react";
+import SearchBox from "../../../src/components/searchBox/SearchBox.jsx";
 
 import css from "../../../src/components/app/App.module.css";
 
@@ -13,6 +14,7 @@ export default function App() {
   ];
 
   const [contacts, setContacts] = useState(initialContacts);
+  const [filter, setFilter] = useState("");
 
   const addContact = (newContact) => {
     setContacts((prevContacts) => [...prevContacts, newContact]);
@@ -24,36 +26,17 @@ export default function App() {
     );
   };
 
-  // const [tasks, setTasks] = useState(initialTasks);
-  // const [filter, setFilter] = useState('');
-
-  // const addTask = (newTask) => {
-  //   setTasks((prevTasks) => {
-  //     return [...prevTasks, newTask];
-  //   });
-  // };
-
-  // const deleteTask = (taskId) => {
-  //   setTasks((prevTasks) => {
-  //     return prevTasks.filter((task) => task.id !== taskId);
-  //   });
-  // };
-
-  // const visibleTasks = tasks.filter((task) =>
-  //   task.text.toLowerCase().includes(filter.toLowerCase())
-  // );
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div className={css.container}>
       <h1>Phonebook</h1>
 
       <ContactForm onAdd={addContact} />
-      {/* <SearchBox value={filter} onFilter={setFilter} /> */}
-      <ContactList
-        contacts={contacts}
-        //  tasks={visibleTasks}
-        onDelete={deleteContact}
-      />
+      <SearchBox value={filter} onFilter={setFilter} />
+      <ContactList contacts={filteredContacts} onDelete={deleteContact} />
     </div>
   );
 }
