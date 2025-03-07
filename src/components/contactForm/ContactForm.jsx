@@ -3,8 +3,9 @@ import * as Yup from "yup";
 import css from "./ContactForm.module.css";
 
 const UserSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, "Must be min 3 chars")
+  name: Yup.string()
+    .min(3, "Must be at least 3 characters")
+    .max(50, "Must be 50 characters or less")
     .required("This field is required"),
   number: Yup.string()
     .matches(/^\+?\d{7,15}$/, "Invalid phone number")
@@ -13,33 +14,25 @@ const UserSchema = Yup.object().shape({
 
 export default function ContactForm({ onAdd }) {
   const handleSubmit = (values, actions) => {
-    console.log("Form submitted with values:", values);
     onAdd({
-      id: Date.now().toString(),
-      name: values.username,
+      name: values.name,
       number: values.number,
     });
+
     actions.resetForm();
   };
 
   return (
     <Formik
-      initialValues={{
-        username: "",
-        number: "",
-      }}
+      initialValues={{ name: "", number: "" }}
       validationSchema={UserSchema}
       onSubmit={handleSubmit}
     >
       <Form className={css.form}>
         <div className={css.group}>
           <label className={css.label}>Name:</label>
-          <Field className={css.input} type="text" name="username" />
-          <ErrorMessage
-            className={css.error}
-            name="username"
-            component="span"
-          />
+          <Field className={css.input} type="text" name="name" />
+          <ErrorMessage className={css.error} name="name" component="span" />
         </div>
 
         <div className={css.group}>
